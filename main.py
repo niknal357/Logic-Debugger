@@ -68,9 +68,10 @@ def gen_style(i, g):
     style = ''
     if g == 0:
         style = f'background-color: #ffffff;'
+        style += f'border: 2px solid {color};'
     else:
         style = f'background-color: {color};'
-    style += f'border: 2px solid {color};'
+        style += f'border: 2px solid #000000;'
     return style
 
 
