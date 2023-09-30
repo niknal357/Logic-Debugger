@@ -1,0 +1,50 @@
+<html>
+
+<head>
+
+    <style>
+        * {
+            font-family: monospace;
+            font-size: 20px;
+        }
+
+        button {
+            padding: 10px;
+            margin: 10px;
+        }
+    </style>
+    <title>Logic Debugger</title>
+    <script>
+        let start = null;
+        let interval = null;
+        function startrecording() {
+            // send request to /record
+            let x = fetch("/record");
+            // update status
+            start = Date.now();
+            document.getElementById("status").innerHTML = "Recording for 0 seconds";
+            interval = setInterval(() => {
+                document.getElementById("status").innerHTML = "Recording for " + Math.floor((Date.now() - start) / 1000) + " seconds";
+            }, 100);
+        }
+        function stoprecording() {
+            // send request to /stop
+            let x = fetch("/stop").then((response) => {
+                // open new tab with /show_data
+                window.open("/show_data");
+            });
+            // update status
+            clearInterval(interval);
+            document.getElementById("status").innerHTML = "Stopped recording";
+        }
+    </script>
+</head>
+
+<body>
+    <!-- draw a start recording button, stop recording button -->
+    <button id="start" onclick="startrecording()">Start Recording</button>
+    <button id="stop" onclick="stoprecording()">Stop Recording</button>
+    <p id="status"></p>
+</body>
+
+</html>

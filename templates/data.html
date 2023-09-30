@@ -1,0 +1,56 @@
+<html>
+
+<head>
+    <title>Data - Logic Debugger</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        /* table,
+        th,
+        td {
+            border: 1px solid black;
+        } */
+
+        td {
+
+            width: 30px;
+            height: 30px;
+            /* center the text */
+            text-align: center;
+        }
+
+        th {
+            background-color: #dddddd;
+            width: 30px;
+            height: 30px;
+        }
+
+        * {
+            font-family: monospace;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- draw data in a table (variable given is data, a list of lists of constant length) -->
+    <table>
+        <tr>
+            <th>tick</th>
+            {% for i in range(data[0]|length) %}
+            <th>{{ i }}</th>
+            {% endfor %}
+        </tr>
+        {% for row in data %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            {% for cell in row %}
+            <td style="{{cell}}"></td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+
+</html>
