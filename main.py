@@ -2,21 +2,13 @@ from math import sqrt
 import asyncio
 from flask import Flask, render_template, request, jsonify, Response
 import json
-import pathlib
 import time
 
-# find your workshop content folder, by default on windows it is C:/Program Files (x86)/Steam/steamapps/workshop/content/
-
-workshop_content_folder = 'C:/Program Files (x86)/Steam/steamapps/workshop/content/'
-sm_id = '387990'
-mod_id = '3043605075'
-filename = 'logicdebugger.json'
-
-path = pathlib.Path(workshop_content_folder) / sm_id / mod_id / filename
+with open('path.txt', 'r') as f:
+    path = f.read().strip()
 
 all_data = {}
 colors = []
-
 tick_cutoff = None
 
 
@@ -31,6 +23,7 @@ def get_json():
         except:
             time.sleep(0.1)
     tick = data['tick']
+    print(tick)
     if tick_cutoff is None:
         tick_cutoff = tick
     tickstream = data['tickstream']
@@ -39,15 +32,11 @@ def get_json():
     # tickstream is a list of lists
     first_tick = tick - len(tickstream) + 1
     for i in range(len(tickstream)):
-        if first_tick + i > tick_cutoff:
-            all_data[first_tick + i] = tickstream[i]
+        if first_tick + i < tick_cutoff:
+            continue
+        print(first_tick + i, tick_cutoff)
+        all_data[first_tick + i] = tickstream[i]
 
-
-# data = []
-# for tick in all_data:
-#     data.append(' '.join([str(int(g)) for g in all_data[tick]]))
-# with open('data.json', 'w') as f:
-#     json.dump(data, f, indent=4)
 
 recording = False
 
@@ -89,8 +78,9 @@ def run_in_thread():
 
     @app.route('/record')
     def record():
-        global recording, all_data
+        global recording, all_data, tick_cutoff
         all_data = {}
+        tick_cutoff = None
         recording = True
         return "Recording"
 
