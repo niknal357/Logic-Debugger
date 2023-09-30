@@ -9,6 +9,7 @@ if not os.path.exists('path.txt'):
     with open('path.txt', 'w') as f:
         f.write('path/to/mod/logicdebugger.json')
     print("Please insert the path to the folder where the Logic Debugger mod is stored into path.txt. (The mod id is 3043605075)\nby default on Windows, the mod will be stored at C:/Program Files (x86)/Steam/steamapps/workshop/content/387990/3043605075/")
+    exit()
 with open('path.txt', 'r') as f:
     path = f.read().strip()
 
