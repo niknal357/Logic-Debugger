@@ -29,7 +29,6 @@ def get_json():
         except:
             time.sleep(0.1)
     tick = data['tick']
-    print(tick)
     if tick_cutoff is None:
         tick_cutoff = tick
     tickstream = data['tickstream']
@@ -40,7 +39,6 @@ def get_json():
     for i in range(len(tickstream)):
         if first_tick + i < tick_cutoff:
             continue
-        print(first_tick + i, tick_cutoff)
         all_data[first_tick + i] = tickstream[i]
 
 
